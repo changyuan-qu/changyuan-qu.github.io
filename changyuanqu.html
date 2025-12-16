@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>瞿長緣 Chang Yuan Qu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Spectral:ital,wght@0,200;0,300;1,200&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray-dark: #1a1a1a;
+      --gray-mid: #888888;
+      --gray-light: #f5f5f5;
+      --gold: #c9a962;
+      --gold-light: #e8d5a3;
+      --gold-glow: rgba(201, 169, 98, 0.6);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Noto Serif TC', serif;
+      background: var(--black);
+      cursor: none;
+    }
+
+    /* ====== METEOR CURSOR ====== */
+    .cursor-glow {
+      position: fixed;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(201,169,98,0.25) 0%, rgba(201,169,98,0.08) 35%, transparent 55%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-core {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10001;
+      box-shadow: 0 0 15px var(--gold), 0 0 30px var(--gold), 0 0 45px var(--gold-glow);
+      transform: translate(-50%, -50%);
+    }
+    /* Meteor Trail */
+    .meteor-trail {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    /* ====== INTRO ====== */
+    #intro {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1000;
+      background: radial-gradient(ellipse at center, #050510 0%, #000 100%);
+      overflow: hidden;
+    }
+    .stars-layer {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .star {
+      position: absolute;
+      background: var(--white);
+      border-radius: 50%;
+      animation: twinkle var(--dur) ease-in-out infinite;
+      animation-delay: var(--del);
+    }
+    .star::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600%; height: 600%;
+      background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 50%);
+      border-radius: 50%;
+    }
+    .star.gold { background: var(--gold); }
+    .star.gold::after { background: radial-gradient(circle, rgba(201,169,98,0.6) 0%, transparent 50%); }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.1; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    /* Nebula */
+    .nebula {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.12;
+      animation: nebulaDrift 20s ease-in-out infinite;
+    }
+    .nebula-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(201,169,98,0.4) 0%, transparent 60%); top: 10%; left: 5%; }
+    .nebula-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(100,130,200,0.25) 0%, transparent 60%); bottom: 5%; right: 10%; animation-delay: -10s; }
+    @keyframes nebulaDrift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -20px) scale(1.1); }
+    }
+
+    /* Memory Fragments */
+    .memory-container {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .memory-fragment {
+      position: absolute;
+      font-family: 'Noto Serif TC', serif;
+      font-weight: 200;
+      white-space: nowrap;
+      opacity: 0;
+      text-shadow: 0 0 30px currentColor;
+      transition: opacity 2s ease, transform 0.1s ease;
+    }
+
+    /* Intro Center */
+    .intro-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
+    }
+    .intro-spark {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      margin: 0 auto 2rem;
+      box-shadow: 0 0 20px var(--gold), 0 0 40px var(--gold-glow);
+      animation: sparkPulse 2s ease-in-out infinite;
+    }
+    @keyframes sparkPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--gold), 0 0 40px var(--gold-glow); }
+      50% { transform: scale(1.5); box-shadow: 0 0 40px var(--gold), 0 0 80px var(--gold-glow); }
+    }
+    .intro-hint {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 0.85rem;
+      font-weight: 200;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.3em;
+      animation: gentlePulse 3s ease-in-out infinite;
+    }
+    .intro-hint-sub {
+      font-family: 'Spectral', serif;
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.12em;
+      margin-top: 0.6rem;
+      font-style: italic;
+    }
+    @keyframes gentlePulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.9; }
+    }
+
+    /* Bloom Effect */
+    .bloom-ring {
+      position: fixed;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0;
+    }
+
+    /* Slogan */
+    .intro-slogan {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .slogan-zh {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.4rem, 4vw, 2.8rem);
+      font-weight: 200;
+      color: var(--white);
+      letter-spacing: 0.3em;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 60px rgba(255,255,255,0.5);
+    }
+    .slogan-en {
+      font-family: 'Spectral', serif;
+      font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+      font-weight: 200;
+      font-style: italic;
+      color: var(--gray-mid);
+      letter-spacing: 0.18em;
+    }
+
+    /* Circle Expand */
+    .circle-expand {
+      position: fixed;
+      width: 0; height: 0;
+      border-radius: 50%;
+      background: var(--white);
+      z-index: 200;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+    .skip-btn {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      font-family: 'Spectral', serif;
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.25);
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      z-index: 1001;
+      transition: all 0.3s ease;
+    }
+    .skip-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* ====== MAIN SITE ====== */
+    #main-site {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--white);
+      opacity: 0;
+      visibility: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    #main-site.visible { opacity: 1; visibility: visible; }
+
+    #rippleCanvas, #orbCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    #rippleCanvas { z-index: 1; }
+    #orbCanvas { z-index: 2; }
+
+    /* Music */
+    .music-player { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; }
+    .music-btn {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid rgba(0,0,0,0.05);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s ease;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+    .music-btn:hover { border-color: var(--gold); box-shadow: 0 0 30px rgba(201,169,98,0.25); }
+    .music-btn.playing .m-pause { display: block; }
+    .music-btn.playing .m-play { display: none; }
+    .music-btn:not(.playing) .m-pause { display: none; }
+    .music-btn:not(.playing) .m-play { display: block; }
+    .m-play, .m-pause { width: 14px; height: 14px; color: var(--gray-dark); }
+    .music-ring {
+      position: absolute;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .music-btn.playing .music-ring { animation: mRing 2.5s ease-out infinite; }
+    .music-ring:nth-child(1) { animation-delay: 0s; }
+    .music-ring:nth-child(2) { animation-delay: 0.8s; }
+    @keyframes mRing {
+      0% { width: 48px; height: 48px; opacity: 0.4; }
+      100% { width: 100px; height: 100px; opacity: 0; }
+    }
+
+    /* Header */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      mix-blend-mode: difference;
+    }
+    .logo {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.2em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-family: 'Spectral', serif;
+      font-size: 0.75rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--white);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Sections */
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 4rem;
+      position: relative;
+      z-index: 3;
+    }
+    .section-content { max-width: 950px; width: 100%; }
+    .chapter-num {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.3em;
+      margin-bottom: 0.8rem;
+      opacity: 0.7;
+    }
+    .section-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      font-weight: 200;
+      color: var(--black);
+      letter-spacing: 0.12em;
+      margin-bottom: 2.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem; left: 0;
+      width: 1.2rem; height: 1px;
+      background: var(--gold);
+    }
+
+    /* Hero */
+    .hero { position: relative; }
+    .hero-content { text-align: center; padding: 2rem; }
+    .hero-name {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(2rem, 8vw, 6rem);
+      font-weight: 200;
+      color: var(--black);
+      letter-spacing: 0.18em;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: heroIn 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+    }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(25px); filter: blur(6px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    .hero-tagline {
+      font-family: 'Spectral', serif;
+      font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+      font-style: italic;
+      color: var(--gray-mid);
+      letter-spacing: 0.12em;
+      opacity: 0;
+      animation: fadeUp 1.5s ease forwards 0.6s;
+    }
+    .hero-quote {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+      color: var(--gray-mid);
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeUp 1.5s ease forwards 1s;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .circle-deco {
+      position: absolute;
+      border: 1px solid rgba(0,0,0,0.03);
+      border-radius: 50%;
+      pointer-events: none;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: circleFloat 18s ease-in-out infinite;
+    }
+    .circle-deco.c1 { width: 45vw; height: 45vw; max-width: 550px; max-height: 550px; }
+    .circle-deco.c2 { width: 30vw; height: 30vw; max-width: 360px; max-height: 360px; animation-delay: -6s; }
+    .circle-deco.c3 { width: 12vw; height: 12vw; max-width: 150px; max-height: 150px; animation-delay: -12s; border-color: rgba(201,169,98,0.1); }
+    @keyframes circleFloat {
+      0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0); opacity: 0.25; }
+      50% { transform: translate(-50%, -50%) scale(1.02) rotate(3deg); opacity: 0.4; }
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      animation: fadeUp 1.5s ease forwards 1.5s;
+    }
+    .scroll-hint span { font-family: 'Spectral', serif; font-size: 0.55rem; color: var(--gray-mid); letter-spacing: 0.12em; }
+    .scroll-line {
+      width: 1px; height: 25px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { transform: scaleY(1); opacity: 1; }
+      50% { transform: scaleY(0.4); opacity: 0.3; }
+    }
+
+    /* Prose */
+    .prose {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+      font-weight: 300;
+      color: var(--gray-dark);
+      line-height: 2.8;
+      letter-spacing: 0.02em;
+    }
+    .prose p { margin-bottom: 1.5rem; }
+    .prose .gold { color: var(--gold); }
+
+    /* Quote Section */
+    .quote-section { text-align: center; background: linear-gradient(180deg, #fafafa 0%, #fff 100%); }
+    .quote-section.dark { background: linear-gradient(180deg, var(--gray-dark) 0%, #0a0a0a 100%); color: var(--white); }
+    .quote-section.dark .section-title { color: var(--white); }
+    .quote-text {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-weight: 200;
+      line-height: 2.6;
+      letter-spacing: 0.06em;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quote-text .gold { color: var(--gold); }
+    .quote-author {
+      font-family: 'Spectral', serif;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--gray-mid);
+      margin-top: 2rem;
+      letter-spacing: 0.1em;
+    }
+    .divider {
+      width: 50px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 2.5rem auto;
+    }
+
+    /* Poetry Quote Block - Special */
+    .poetry-block {
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .poetry-block.light { background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%); }
+    .poetry-block.dark { background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); }
+    .poetry-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .poetry-quote-mark {
+      font-family: 'EB Garamond', serif;
+      font-size: 6rem;
+      color: var(--gold);
+      opacity: 0.15;
+      position: absolute;
+      top: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      line-height: 1;
+    }
+    .poetry-text {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1rem, 1.8vw, 1.3rem);
+      font-weight: 200;
+      line-height: 2.4;
+      letter-spacing: 0.08em;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .poetry-block.light .poetry-text { color: var(--gray-dark); }
+    .poetry-block.dark .poetry-text { color: rgba(255,255,255,0.8); }
+    .poetry-text .gold { color: var(--gold); }
+    .poetry-source {
+      font-family: 'Spectral', serif;
+      font-size: 0.75rem;
+      font-style: italic;
+      margin-top: 2rem;
+      letter-spacing: 0.1em;
+    }
+    .poetry-block.light .poetry-source { color: var(--gray-mid); }
+    .poetry-block.dark .poetry-source { color: rgba(255,255,255,0.4); }
+    .poetry-glow {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.2;
+      animation: poetryGlow 8s ease-in-out infinite;
+    }
+    .poetry-glow.g1 { background: var(--gold); top: 20%; left: 10%; }
+    .poetry-glow.g2 { background: var(--gold); bottom: 20%; right: 10%; animation-delay: -4s; }
+    @keyframes poetryGlow {
+      0%, 100% { transform: scale(1); opacity: 0.15; }
+      50% { transform: scale(1.3); opacity: 0.25; }
+    }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center; }
+    .about-photo { position: relative; }
+    .about-photo-frame { width: 100%; aspect-ratio: 3/4; overflow: hidden; }
+    .about-photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%); transition: all 0.8s ease; }
+    .about-photo-frame:hover img { filter: grayscale(0%); transform: scale(1.02); }
+    .photo-glow {
+      position: absolute;
+      top: -25px; right: -25px;
+      width: 80px; height: 80px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: glowPulse 4s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.2; box-shadow: 0 0 20px rgba(201,169,98,0); }
+      50% { opacity: 0.5; box-shadow: 0 0 40px rgba(201,169,98,0.3); }
+    }
+    .motto {
+      font-size: 0.9rem;
+      color: var(--gold);
+      margin-top: 2rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--gold);
+      line-height: 1.8;
+    }
+    .motto-sub { font-size: 0.8rem; color: var(--gray-mid); margin-top: 0.3rem; }
+
+    /* Story Section - Novel Style */
+    .story-section { background: var(--white); }
+    .story-section.alt { background: #fafafa; }
+    .story-content { max-width: 750px; }
+    .story-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+      font-weight: 200;
+      color: var(--black);
+      letter-spacing: 0.1em;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    .story-title::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+    .story-text {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(0.85rem, 1.15vw, 0.92rem);
+      font-weight: 300;
+      color: var(--gray-dark);
+      line-height: 2.8;
+      text-indent: 2em;
+    }
+    .story-text p { margin-bottom: 1.8rem; }
+    .story-text .gold { color: var(--gold); }
+
+    /* Philosophy Grid */
+    .philosophy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .philosophy-item { text-align: center; padding: 2rem 1.5rem; }
+    .philosophy-circle {
+      width: 90px; height: 90px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50%;
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s ease;
+    }
+    .philosophy-item:hover .philosophy-circle { border-color: var(--gold); box-shadow: 0 0 50px rgba(201,169,98,0.2); }
+    .philosophy-icon { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 200; color: var(--gold); }
+    .philosophy-title { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 300; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .philosophy-desc { font-family: 'Noto Serif TC', serif; font-size: 0.78rem; font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.9; }
+
+    /* Works */
+    .works-intro { text-align: center; max-width: 600px; margin: 0 auto 3rem; font-size: 0.85rem; color: var(--gray-mid); line-height: 2; }
+    .works-row { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    .work-item {
+      width: 180px; height: 180px;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.5s ease;
+      cursor: pointer;
+      background: var(--white);
+    }
+    .work-item:hover { border-color: var(--gold); box-shadow: 0 0 50px rgba(201,169,98,0.12); transform: translateY(-5px); }
+    .work-title { font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .work-role { font-family: 'Spectral', serif; font-size: 0.65rem; font-style: italic; color: var(--gray-mid); }
+
+    /* Whispers */
+    .whispers-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8rem; }
+    .whisper-card {
+      padding: 2.2rem;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.03);
+      position: relative;
+      transition: all 0.5s ease;
+    }
+    .whisper-card::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--gold); transition: height 0.5s ease; }
+    .whisper-card:hover::before { height: 100%; }
+    .whisper-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.04); }
+    .whisper-text { font-family: 'Noto Serif TC', serif; font-size: 0.85rem; font-weight: 300; color: var(--gray-dark); line-height: 2.3; }
+
+    /* Journey */
+    .journey-intro { max-width: 600px; margin-bottom: 2.5rem; font-size: 0.85rem; color: var(--gray-mid); line-height: 2; }
+    .journey-timeline { position: relative; padding-left: 2rem; }
+    .journey-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--gold), transparent); }
+    .journey-item { position: relative; margin-bottom: 2.5rem; padding-left: 2rem; }
+    .journey-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem; top: 0.25rem;
+      width: 7px; height: 7px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      background: var(--white);
+      transition: all 0.3s ease;
+    }
+    .journey-item:hover::before { background: var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
+    .journey-year { font-family: 'Spectral', serif; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .journey-title { font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 300; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .journey-desc { font-family: 'Noto Serif TC', serif; font-size: 0.8rem; color: var(--gray-mid); line-height: 1.8; }
+
+    /* Reflection */
+    .reflection-block { margin-bottom: 3rem; }
+    .reflection-q { font-family: 'Spectral', serif; font-size: 0.75rem; font-style: italic; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+    .reflection-a { font-family: 'Noto Serif TC', serif; font-size: 0.88rem; font-weight: 300; color: var(--gray-dark); line-height: 2.4; }
+
+    /* Solitude */
+    .solitude { background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); color: var(--white); text-align: center; min-height: 70vh; }
+    .solitude-title { font-family: 'Noto Serif TC', serif; font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 200; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 2.5rem; }
+    .solitude-poem { font-family: 'Noto Serif TC', serif; font-size: clamp(0.85rem, 1.4vw, 1rem); font-weight: 200; line-height: 3.2; letter-spacing: 0.08em; color: rgba(255,255,255,0.65); max-width: 600px; margin: 0 auto; }
+    .solitude-poem .bright { color: var(--white); }
+
+    /* Contact */
+    .contact-content { text-align: center; }
+    .contact-intro { max-width: 500px; margin: 0 auto 2rem; font-size: 0.85rem; color: var(--gray-mid); line-height: 2; }
+    .contact-email { font-family: 'Spectral', serif; font-size: clamp(0.95rem, 1.8vw, 1.3rem); color: var(--black); text-decoration: none; transition: color 0.3s ease; }
+    .contact-email:hover { color: var(--gold); }
+    .contact-social { margin-top: 1.8rem; }
+    .social-link { font-family: 'Spectral', serif; font-size: 0.75rem; color: var(--gray-mid); text-decoration: none; transition: color 0.3s ease; }
+    .social-link:hover { color: var(--gold); }
+
+    /* Epilogue */
+    .epilogue { background: var(--black); color: var(--white); text-align: center; min-height: 45vh; }
+    .epilogue-text { font-family: 'Noto Serif TC', serif; font-size: clamp(0.9rem, 1.8vw, 1.2rem); font-weight: 200; line-height: 2.6; letter-spacing: 0.06em; max-width: 550px; margin: 0 auto; }
+    .epilogue-text .gold { color: var(--gold); }
+
+    /* Footer */
+    .site-footer { padding: 2rem; text-align: center; background: var(--white); z-index: 3; position: relative; }
+    .footer-text { font-family: 'Spectral', serif; font-size: 0.65rem; color: var(--gray-mid); letter-spacing: 0.1em; }
+
+    /* Responsive */
+    @media (max-width: 1024px) { .whispers-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-photo { max-width: 280px; margin: 0 auto; }
+      .philosophy-grid { grid-template-columns: 1fr; }
+      .works-row { flex-direction: column; align-items: center; }
+      .cursor-glow, .cursor-core, .meteor-trail { display: none; }
+      html, body { cursor: auto; }
+    }
+    @media (max-width: 768px) {
+      .site-header { padding: 1.5rem 2rem; }
+      .nav-links { gap: 1rem; font-size: 0.65rem; }
+      section { padding: 4rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="cursor-core" id="cursorCore"></div>
+
+  <!-- INTRO -->
+  <div id="intro">
+    <div class="stars-layer" id="starsLayer"></div>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="memory-container" id="memoryContainer"></div>
+
+    <div class="intro-center" id="introCenter">
+      <div class="intro-spark"></div>
+      <div class="intro-hint">觸碰，開啟一段旅程</div>
+      <div class="intro-hint-sub">touch to begin</div>
+    </div>
+
+    <div class="intro-slogan" id="introSlogan">
+      <div class="slogan-zh">精雕完美　驚艷世界</div>
+      <div class="slogan-en">So sophisticated, so perfect.</div>
+    </div>
+
+    <div class="circle-expand" id="circleExpand"></div>
+    <button class="skip-btn" onclick="skipIntro()">SKIP</button>
+  </div>
+
+  <!-- MAIN SITE -->
+  <div id="main-site">
+    <canvas id="rippleCanvas"></canvas>
+    <canvas id="orbCanvas"></canvas>
+
+    <div class="music-player">
+      <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        <div class="music-ring"></div>
+        <div class="music-ring"></div>
+        <svg class="m-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <svg class="m-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="6" y1="4" x2="6" y2="20"></line><line x1="18" y1="4" x2="18" y2="20"></line></svg>
+      </button>
+    </div>
+    <audio id="bgMusic" loop><source src="Changyuanqu.mp3" type="audio/mpeg"></audio>
+
+    <header class="site-header">
+      <a href="#" class="logo">瞿長緣</a>
+      <nav class="nav-links">
+        <a href="#about">關於</a>
+        <a href="#philosophy">理念</a>
+        <a href="#works">事業</a>
+        <a href="#journey">歷程</a>
+        <a href="#contact">聯繫</a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="circle-deco c1"></div>
+      <div class="circle-deco c2"></div>
+      <div class="circle-deco c3"></div>
+      <div class="hero-content">
+        <h1 class="hero-name">瞿長緣</h1>
+        <p class="hero-tagline">Creator · Designer · Dreamer</p>
+        <p class="hero-quote">在圓的世界裡，沒有終點，只有無限延伸的可能</p>
+      </div>
+      <div class="scroll-hint"><span>SCROLL</span><div class="scroll-line"></div></div>
+    </section>
+
+    <!-- Prologue -->
+    <section class="quote-section">
+      <div class="section-content" style="text-align:center;">
+        <p class="quote-text">
+          有些故事，<br>
+          是在<span class="gold">孤獨</span>中綻放的花。<br><br>
+          它不需要喧囂的掌聲，<br>
+          只需要一個願意駐足的靈魂。
+        </p>
+        <div class="divider"></div>
+        <p class="quote-author">這是我的故事，歡迎你的到來。</p>
+      </div>
+    </section>
+
+    <!-- Poetry Quote 1 -->
+    <div class="poetry-block dark">
+      <div class="poetry-glow g1"></div>
+      <div class="poetry-glow g2"></div>
+      <div class="poetry-content">
+        <div class="poetry-quote-mark">"</div>
+        <p class="poetry-text">
+          <span class="gold">美</span>是永恆的喜悅，<br>
+          它的可愛與日俱增；<br>
+          它永遠不會消逝於虛無。
+        </p>
+        <p class="poetry-source">— John Keats《乞力馬札羅的雪》</p>
+      </div>
+    </div>
+
+    <!-- Chapter 1: About -->
+    <section id="about">
+      <div class="section-content">
+        <div class="chapter-num">CHAPTER 01</div>
+        <h2 class="section-title">關於我</h2>
+        <div class="about-grid">
+          <div class="about-photo">
+            <div class="about-photo-frame"><img src="ChangYuanqu.jpg" alt="瞿長緣"></div>
+            <div class="photo-glow"></div>
+          </div>
+          <div class="prose">
+            <p>我是瞿長緣。一個名字裡藏著<span class="gold">圓</span>的人。</p>
+            <p>圓，沒有起點，沒有終點。它是完整，是圓滿，也是無限。我常想，或許這就是命運給我的暗示——在創作的路上，永遠不要停止，永遠保持完整。</p>
+            <p>我是設計師，是動畫師，是品牌的塑造者。但在這些身份之下，我更是一個<span class="gold">相信美能改變世界的人</span>。每一個專案，每一條線條，每一個像素，都是我與世界對話的方式。</p>
+            <p>有人說創作是孤獨的。我說，創作是與孤獨共舞。在那些深夜裡反覆修改的時刻，在那些推翻重來的瞬間，我學會了與自己對話，學會了在寂靜中聽見靈感的聲音。</p>
+            <div class="motto">「精雕完美，驚艷世界」<div class="motto-sub">—— 這是我的座右銘，也是永恆的期許。</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story 1: 深夜開車 -->
+    <section class="story-section alt">
+      <div class="section-content">
+        <div class="story-content">
+          <div class="chapter-num">CHAPTER 02</div>
+          <h3 class="story-title">深夜的公路</h3>
+          <div class="story-text">
+            <p>凌晨三點，我常常一個人開著車，在空蕩蕩的公路上。</p>
+            <p>車窗外是無盡的黑暗，偶爾閃過幾盞路燈，像是宇宙裡稀疏的星星。引擎的聲音成了唯一的陪伴，低沉而規律，像是某種古老的咒語。</p>
+            <p>我喜歡這種時刻。白天的我需要面對無數的決定、無數的妥協、無數的「這樣可以嗎」。但深夜的公路上，只有我和我的思緒。沒有人催促，沒有人評判。我可以盡情地想，盡情地做夢。</p>
+            <p>有時候，一個困擾我很久的設計問題，會在某個轉彎的瞬間突然有了答案。有時候，一句想了很久的文案，會在等紅燈的時候自己跳出來。<span class="gold">創意是需要留白的</span>，而深夜的公路，就是我給自己的留白。</p>
+            <p>我想，這就是為什麼我總是熬夜的原因吧。不是因為工作做不完，而是因為只有夜深人靜的時候，我才能真正地和自己獨處。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Poetry Quote 2 -->
+    <div class="poetry-block light">
+      <div class="poetry-content">
+        <div class="poetry-quote-mark">"</div>
+        <p class="poetry-text">
+          在所有的美德中，<br>
+          <span class="gold">堅持</span>是最被低估的；<br>
+          在所有的成就中，<br>
+          它是最根本的。
+        </p>
+        <p class="poetry-source">— 改編自 Aristotle</p>
+      </div>
+    </div>
+
+    <!-- Chapter 3: Soliloquy -->
+    <section class="quote-section dark">
+      <div class="section-content" style="text-align:center;">
+        <div class="chapter-num">CHAPTER 03</div>
+        <h2 class="section-title">獨白</h2>
+        <p class="quote-text" style="color:rgba(255,255,255,0.85);">
+          我相信，<br>
+          每一個<span class="gold">像素</span>都有靈魂，<br>
+          每一條<span class="gold">線條</span>都在訴說故事。<br><br>
+          設計不只是美的堆砌，<br>
+          而是讓看不見的，變得<span class="gold">可見</span>。
+        </p>
+        <p class="quote-author">— 深夜工作時的自白</p>
+      </div>
+    </section>
+
+    <!-- Story 2: 創立靛之森 -->
+    <section class="story-section">
+      <div class="section-content">
+        <div class="story-content">
+          <div class="chapter-num">CHAPTER 04</div>
+          <h3 class="story-title">靛藍色的夢</h3>
+          <div class="story-text">
+            <p>靛之森的誕生，始於一個簡單的問題：<span class="gold">如果可以創造一個世界，它會是什麼樣子？</span></p>
+            <p>我想要一個充滿愛的地方。不是那種廉價的、輕飄飄的愛，而是深沉的、願意為彼此付出的愛。我想要一片森林，那裡的每一棵樹都有故事，每一片葉子都承載著某個人的夢想。</p>
+            <p>靛藍色，是深夜的顏色，是思念的顏色，也是我最喜歡的顏色。它不張揚，卻有著無法忽視的存在感。就像愛本身——不需要大聲宣告，但你總能感受到它的溫度。</p>
+            <p>創立靛之森的過程並不順利。有無數個夜晚，我對著螢幕發呆，不知道下一步該怎麼走。有無數次，我差點放棄。但每當我想起最初的那個問題，我就知道我不能停下來。</p>
+            <p>因為這不只是一個專案，<span class="gold">這是我想送給世界的一封情書</span>。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 5: Philosophy -->
+    <section id="philosophy" class="quote-section dark" style="background: linear-gradient(180deg, #0a0a0a 0%, #111 100%);">
+      <div class="section-content">
+        <div class="chapter-num">CHAPTER 05</div>
+        <h2 class="section-title">理念</h2>
+        <div class="philosophy-grid">
+          <div class="philosophy-item">
+            <div class="philosophy-circle"><span class="philosophy-icon">圓</span></div>
+            <h3 class="philosophy-title">圓融</h3>
+            <p class="philosophy-desc">以包容取代對立，以和諧化解衝突。真正的強大，是能夠容納一切的溫柔。</p>
+          </div>
+          <div class="philosophy-item">
+            <div class="philosophy-circle"><span class="philosophy-icon">精</span></div>
+            <h3 class="philosophy-title">精緻</h3>
+            <p class="philosophy-desc">細節是神聖的。當你認真對待每一個微小的決定，作品會回報你意想不到的光芒。</p>
+          </div>
+          <div class="philosophy-item">
+            <div class="philosophy-circle"><span class="philosophy-icon">緣</span></div>
+            <h3 class="philosophy-title">緣起</h3>
+            <p class="philosophy-desc">每一次相遇都是宇宙的安排。珍惜每一份緣，讓短暫的交集成為永恆的印記。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story 3: 一個人走在路上 -->
+    <section class="story-section alt">
+      <div class="section-content">
+        <div class="story-content">
+          <div class="chapter-num">CHAPTER 06</div>
+          <h3 class="story-title">一個人的散步</h3>
+          <div class="story-text">
+            <p>我有一個習慣，當腦袋打結的時候，就出門走走。</p>
+            <p>不是去哪裡，就是走。一個人，沒有目的地，沒有時間限制。有時候走到巷子裡的咖啡店，有時候走到河邊發呆，有時候就只是繞著街區轉圈。</p>
+            <p>走路的時候，世界變得很慢。我可以好好看看那些平常忽略的東西——牆上的塗鴉、路邊的野花、陌生人臉上的表情。每一個細節都可能是靈感的來源，每一個偶遇都可能是故事的開端。</p>
+            <p>有人問我，為什麼不找朋友一起？我說，<span class="gold">有些思考，需要孤獨來完成</span>。不是我不喜歡陪伴，而是在創作這件事上，我必須先和自己對話，才能和世界對話。</p>
+            <p>這些年來，我的很多想法都是在走路的時候想出來的。艷世的名字、添喜的概念、靛之森的故事架構⋯⋯它們都誕生於某一次不經意的散步。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Poetry Quote 3 -->
+    <div class="poetry-block dark">
+      <div class="poetry-glow g1"></div>
+      <div class="poetry-glow g2"></div>
+      <div class="poetry-content">
+        <div class="poetry-quote-mark">"</div>
+        <p class="poetry-text">
+          藝術是<span class="gold">靈魂</span>的語言，<br>
+          當文字無法表達，<br>
+          當邏輯無法觸及，<br>
+          藝術開口說話。
+        </p>
+        <p class="poetry-source">— Wassily Kandinsky</p>
+      </div>
+    </div>
+
+    <!-- Chapter 7: Works -->
+    <section id="works">
+      <div class="section-content">
+        <div class="chapter-num">CHAPTER 07</div>
+        <h2 class="section-title">事業</h2>
+        <p class="works-intro">這些是我投注心血的地方。每一個名字背後，都是無數個日夜的堅持與熱愛。</p>
+        <div class="works-row">
+          <div class="work-item"><h3 class="work-title">艷世設計</h3><p class="work-role">Founder & Creative Director</p></div>
+          <div class="work-item"><h3 class="work-title">靛之森</h3><p class="work-role">Creator & Producer</p></div>
+          <div class="work-item"><h3 class="work-title">添喜設計</h3><p class="work-role">Platform Founder</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story 4: 創業的深夜 -->
+    <section class="story-section">
+      <div class="section-content">
+        <div class="story-content">
+          <div class="chapter-num">CHAPTER 08</div>
+          <h3 class="story-title">創業者的深夜</h3>
+          <div class="story-text">
+            <p>創立艷世設計的那一年，我幾乎沒有好好睡過一覺。</p>
+            <p>白天要跑業務、談合作、處理行政瑣事；晚上要做設計、修改提案、回覆永遠回不完的訊息。有時候忙到凌晨四五點，看著窗外的天空從黑變灰變亮，然後繼續工作。</p>
+            <p>那時候的我，常常問自己：<span class="gold">這一切值得嗎？</span></p>
+            <p>直到有一天，一個客戶傳訊息給我，說他的品牌因為我設計的 Logo，終於有了被認真對待的感覺。他說，他第一次覺得自己的夢想是真實的。</p>
+            <p>那一刻，我知道了答案。值得。每一個熬過的夜晚，每一次咬牙堅持，都是值得的。因為我做的不只是設計，<span class="gold">我是在幫助別人實現夢想</span>。</p>
+            <p>而這，不正是我一直想做的事嗎？</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 9: Whispers -->
+    <section style="background: #fafafa;">
+      <div class="section-content">
+        <div class="chapter-num">CHAPTER 09</div>
+        <h2 class="section-title">心語</h2>
+        <div class="whispers-grid">
+          <div class="whisper-card"><p class="whisper-text">創作是一場沒有終點的馬拉松。有時候你會筋疲力盡，有時候你會懷疑自己。但只要還記得最初為什麼開始，就值得繼續跑下去。</p></div>
+          <div class="whisper-card"><p class="whisper-text">我不追求被所有人喜歡的設計。我追求讓對的人深深感動的設計。一個真正觸動人心的瞬間，勝過千萬次的點擊。</p></div>
+          <div class="whisper-card"><p class="whisper-text">懸崖邊的花最美，因為它在最險峻的地方選擇綻放。創作也是如此——在最困難的時刻，往往能開出最驚艷的作品。</p></div>
+          <div class="whisper-card"><p class="whisper-text">孤獨不是懲罰，是禮物。在孤獨中，你才能聽見自己真正的聲音，才能創造出真正屬於你的作品。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 10: Journey -->
+    <section id="journey">
+      <div class="section-content">
+        <div class="chapter-num">CHAPTER 10</div>
+        <h2 class="section-title">歷程</h2>
+        <p class="journey-intro">人生是一本還在書寫的書。這些是目前為止的章節。</p>
+        <div class="journey-timeline">
+          <div class="journey-item"><div class="journey-year">創立</div><h3 class="journey-title">艷世設計有限公司</h3><p class="journey-desc">將「精雕完美，驚艷世界」從理念化為現實的第一步。</p></div>
+          <div class="journey-item"><div class="journey-year">企劃</div><h3 class="journey-title">靛之森 Ainomori</h3><p class="journey-desc">在虛擬與現實的邊界，用靛藍色編織一座充滿愛的魔法森林。</p></div>
+          <div class="journey-item"><div class="journey-year">創建</div><h3 class="journey-title">添喜設計平台</h3><p class="journey-desc">讓每一個優質設計都能被看見，讓每一份創意都有歸屬。</p></div>
+          <div class="journey-item"><div class="journey-year">持續</div><h3 class="journey-title">學習與突破</h3><p class="journey-desc">程式、遊戲、互動媒體——在技術與藝術的交界處探索新的語言。</p></div>
+          <div class="journey-item"><div class="journey-year">未來</div><h3 class="journey-title">待續...</h3><p class="journey-desc">故事還在繼續。最精彩的章節，永遠是下一頁。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 11: Reflection -->
+    <section style="background: #fafafa;">
+      <div class="section-content">
+        <div class="chapter-num">CHAPTER 11</div>
+        <h2 class="section-title">沉思</h2>
+        <div style="max-width: 700px;">
+          <div class="reflection-block">
+            <p class="reflection-q">如果可以對年輕時的自己說一句話？</p>
+            <p class="reflection-a">不要害怕犯錯。每一個錯誤都是通往正確答案的必經之路。那些你現在覺得天崩地裂的挫折，未來回頭看，都會成為最珍貴的養分。</p>
+          </div>
+          <div class="reflection-block">
+            <p class="reflection-q">創作對你來說是什麼？</p>
+            <p class="reflection-a">創作是呼吸，是證明自己存在的方式。當文字、線條、色彩從我的手中誕生，我知道我不只是活著，而是真正地在「生活」。</p>
+          </div>
+          <div class="reflection-block">
+            <p class="reflection-q">你害怕什麼？</p>
+            <p class="reflection-a">害怕平庸。害怕有一天醒來，發現自己過著毫無波瀾的人生。所以我選擇一直走在懸崖邊，因為那裡的風景最美。</p>
+          </div>
+          <div class="reflection-block">
+            <p class="reflection-q">什麼時候最快樂？</p>
+            <p class="reflection-a">當一個作品終於完成，當它完美得超乎自己的預期，當看見別人因為它而露出笑容——那一刻，所有的辛苦都值得了。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 12: Solitude -->
+    <section class="solitude">
+      <div class="section-content">
+        <div class="chapter-num">CHAPTER 12</div>
+        <h3 class="solitude-title">懸崖上的花</h3>
+        <p class="solitude-poem">
+          他們說，<br>
+          懸崖邊太危險，不該綻放。<br><br>
+          但花說，<br>
+          正因為<span class="bright">險峻</span>，<br>
+          才更要用力地<span class="bright">美麗</span>。<br><br>
+          在無人看見的角落，<br>
+          也要開出最驕傲的姿態。<br><br>
+          因為，<br>
+          <span class="bright">綻放本身，就是意義。</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-content contact-content">
+        <div class="chapter-num">EPILOGUE</div>
+        <h2 class="section-title">聯繫</h2>
+        <p class="contact-intro">如果這些文字觸動了你，如果你也在尋找一個能理解你的創作夥伴，那麼，讓我們聊聊。</p>
+        <a href="mailto:changyuanqu@gmail.com" class="contact-email">changyuanqu@gmail.com</a>
+        <div class="contact-social"><a href="https://instagram.com/circle.gif" target="_blank" class="social-link">Instagram @circle.gif</a></div>
+      </div>
+    </section>
+
+    <!-- Epilogue -->
+    <section class="epilogue">
+      <div class="section-content">
+        <p class="epilogue-text">
+          感謝你讀到這裡。<br><br>
+          願你也能找到屬於自己的圓，<br>
+          在孤獨中綻放，<br>
+          <span class="gold">精雕完美，驚艷世界</span>。
+        </p>
+      </div>
+    </section>
+
+    <footer class="site-footer"><p class="footer-text">© 2025 瞿長緣 Chang Yuan Qu · circle.gif</p></footer>
+  </div>
+
+  <script>
+    // ====== METEOR TRAIL CURSOR ======
+    const cursorGlow = document.getElementById('cursorGlow');
+    const cursorCore = document.getElementById('cursorCore');
+    let mouseX = 0, mouseY = 0;
+    let glowX = 0, glowY = 0;
+    const trailPoints = [];
+    const maxTrailLength = 25;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      trailPoints.unshift({ x: mouseX, y: mouseY, time: Date.now() });
+      if (trailPoints.length > maxTrailLength) trailPoints.pop();
+    });
+
+    // Create trail elements
+    const trailElements = [];
+    for (let i = 0; i < maxTrailLength; i++) {
+      const trail = document.createElement('div');
+      trail.className = 'meteor-trail';
+      document.body.appendChild(trail);
+      trailElements.push(trail);
+    }
+
+    function animateCursor() {
+      glowX += (mouseX - glowX) * 0.08;
+      glowY += (mouseY - glowY) * 0.08;
+      cursorGlow.style.left = glowX + 'px';
+      cursorGlow.style.top = glowY + 'px';
+      cursorCore.style.left = mouseX + 'px';
+      cursorCore.style.top = mouseY + 'px';
+
+      // Animate trail
+      trailElements.forEach((el, i) => {
+        if (trailPoints[i]) {
+          const age = (Date.now() - trailPoints[i].time) / 300;
+          const size = Math.max(1, 8 - i * 0.3);
+          const opacity = Math.max(0, 0.7 - age - i * 0.025);
+          el.style.left = trailPoints[i].x - size/2 + 'px';
+          el.style.top = trailPoints[i].y - size/2 + 'px';
+          el.style.width = size + 'px';
+          el.style.height = size + 'px';
+          el.style.opacity = opacity;
+          el.style.boxShadow = `0 0 ${size * 2}px rgba(201,169,98,${opacity})`;
+        } else {
+          el.style.opacity = 0;
+        }
+      });
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // ====== STARS ======
+    function createStars() {
+      const layer = document.getElementById('starsLayer');
+      for (let i = 0; i < 300; i++) {
+        const star = document.createElement('div');
+        star.className = 'star' + (Math.random() < 0.12 ? ' gold' : '');
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        const size = Math.random() * 2 + 0.5;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.setProperty('--dur', (Math.random() * 5 + 3) + 's');
+        star.style.setProperty('--del', (Math.random() * 5) + 's');
+        layer.appendChild(star);
+      }
+    }
+
+    // ====== MEMORY FRAGMENTS - FIXED ======
+    const memoryTexts = [
+      { text: '美是永恆喜悅', size: 1.1, gold: false },
+      { text: '以圓為始', size: 1.2, gold: true },
+      { text: '以緣為終', size: 1.2, gold: true },
+      { text: '精雕完美', size: 1.3, gold: true },
+      { text: '驚艷世界', size: 1.3, gold: true },
+      { text: '創造是永恆的修行', size: 0.9, gold: false },
+      { text: '懸崖上的花最美', size: 0.95, gold: false },
+      { text: '孤獨中綻放', size: 1, gold: false },
+      { text: '每一個像素都有靈魂', size: 0.85, gold: false },
+      { text: '圓融無礙', size: 1.05, gold: true },
+    ];
+    let memoryFragments = [];
+
+    function createMemoryFragments() {
+      const container = document.getElementById('memoryContainer');
+      memoryTexts.forEach((m, i) => {
+        const el = document.createElement('div');
+        el.className = 'memory-fragment';
+        el.textContent = m.text;
+        el.style.fontSize = m.size + 'rem';
+        el.style.color = m.gold ? 'rgba(201,169,98,0.6)' : 'rgba(255,255,255,0.4)';
+        // Position at edges
+        const edge = Math.floor(Math.random() * 4);
+        if (edge === 0) { el.style.left = (5 + Math.random() * 20) + '%'; el.style.top = (10 + Math.random() * 80) + '%'; }
+        else if (edge === 1) { el.style.left = (75 + Math.random() * 20) + '%'; el.style.top = (10 + Math.random() * 80) + '%'; }
+        else if (edge === 2) { el.style.left = (10 + Math.random() * 80) + '%'; el.style.top = (5 + Math.random() * 20) + '%'; }
+        else { el.style.left = (10 + Math.random() * 80) + '%'; el.style.top = (75 + Math.random() * 20) + '%'; }
+        el.style.filter = `blur(${Math.random() * 1.5}px)`;
+        container.appendChild(el);
+        memoryFragments.push({
+          el,
+          baseX: parseFloat(el.style.left),
+          baseY: parseFloat(el.style.top),
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.0005 + Math.random() * 0.0005,
+          showDelay: 500 + i * 600 + Math.random() * 800,
+          visible: false
+        });
+      });
+    }
+
+    function animateMemories() {
+      const now = Date.now();
+      memoryFragments.forEach(m => {
+        if (!m.visible) return;
+        const px = (mouseX / window.innerWidth - 0.5) * 40;
+        const py = (mouseY / window.innerHeight - 0.5) * 40;
+        const floatX = Math.sin(now * m.speed + m.phase) * 20;
+        const floatY = Math.cos(now * m.speed * 0.8 + m.phase) * 15;
+        m.el.style.transform = `translate(${px + floatX}px, ${py + floatY}px)`;
+      });
+      requestAnimationFrame(animateMemories);
+    }
+
+    function showMemoriesSequentially() {
+      memoryFragments.forEach(m => {
+        setTimeout(() => {
+          m.visible = true;
+          m.el.style.opacity = '1';
+          // Fade in and out cycle
+          setTimeout(() => {
+            m.el.style.opacity = '0';
+            setTimeout(() => {
+              if (document.getElementById('intro').style.display !== 'none') {
+                m.el.style.opacity = '1';
+              }
+            }, 2000 + Math.random() * 3000);
+          }, 3000 + Math.random() * 2000);
+        }, m.showDelay);
+      });
+    }
+
+    // ====== RIPPLES - STRONG ======
+    const rippleCanvas = document.getElementById('rippleCanvas');
+    const rCtx = rippleCanvas.getContext('2d');
+    let ripples = [];
+
+    function resizeRipple() {
+      rippleCanvas.width = window.innerWidth;
+      rippleCanvas.height = window.innerHeight;
+    }
+
+    class Ripple {
+      constructor(x, y, gold) {
+        this.x = x; this.y = y;
+        this.r = 0;
+        this.maxR = Math.max(rippleCanvas.width, rippleCanvas.height) * 0.35;
+        this.opacity = 0.3;
+        this.speed = 2.5;
+        this.gold = gold;
+      }
+      update() {
+        this.r += this.speed;
+        this.opacity = 0.3 * (1 - this.r / this.maxR);
+        return this.r < this.maxR;
+      }
+      draw() {
+        const c = this.gold ? '201,169,98' : '80,80,80';
+        rCtx.strokeStyle = `rgba(${c},${this.opacity})`;
+        rCtx.lineWidth = 1.5;
+        rCtx.beginPath();
+        rCtx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        rCtx.stroke();
+      }
+    }
+
+    function animateRipples() {
+      rCtx.clearRect(0, 0, rippleCanvas.width, rippleCanvas.height);
+      ripples = ripples.filter(r => { r.draw(); return r.update(); });
+      requestAnimationFrame(animateRipples);
+    }
+
+    function autoRipple() {
+      if (document.getElementById('main-site').classList.contains('visible')) {
+        ripples.push(new Ripple(Math.random() * rippleCanvas.width, Math.random() * rippleCanvas.height, Math.random() < 0.4));
+      }
+      setTimeout(autoRipple, 1200 + Math.random() * 1500);
+    }
+
+    document.addEventListener('click', e => {
+      if (document.getElementById('main-site').classList.contains('visible')) {
+        ripples.push(new Ripple(e.clientX, e.clientY, Math.random() < 0.5));
+        ripples.push(new Ripple(e.clientX, e.clientY, Math.random() < 0.5));
+      }
+    });
+
+    // ====== SOFT ORBS ======
+    const orbCanvas = document.getElementById('orbCanvas');
+    const oCtx = orbCanvas.getContext('2d');
+    let orbs = [];
+
+    function resizeOrb() {
+      orbCanvas.width = window.innerWidth;
+      orbCanvas.height = window.innerHeight;
+    }
+
+    class Orb {
+      constructor() {
+        this.x = Math.random() * orbCanvas.width;
+        this.y = Math.random() * orbCanvas.height;
+        this.size = 60 + Math.random() * 80;
+        this.vx = (Math.random() - 0.5) * 0.15;
+        this.vy = (Math.random() - 0.5) * 0.15;
+        this.pulse = Math.random() * Math.PI * 2;
+        this.gold = Math.random() < 0.3;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.pulse += 0.008;
+        if (this.x < -this.size) this.x = orbCanvas.width + this.size;
+        if (this.x > orbCanvas.width + this.size) this.x = -this.size;
+        if (this.y < -this.size) this.y = orbCanvas.height + this.size;
+        if (this.y > orbCanvas.height + this.size) this.y = -this.size;
+      }
+      draw() {
+        const op = 0.03 + Math.sin(this.pulse) * 0.015;
+        const grad = oCtx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+        if (this.gold) {
+          grad.addColorStop(0, `rgba(201,169,98,${op * 1.5})`);
+          grad.addColorStop(1, 'rgba(201,169,98,0)');
+        } else {
+          grad.addColorStop(0, `rgba(200,200,200,${op})`);
+          grad.addColorStop(1, 'rgba(200,200,200,0)');
+        }
+        oCtx.fillStyle = grad;
+        oCtx.beginPath();
+        oCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        oCtx.fill();
+      }
+    }
+
+    function initOrbs() { orbs = []; for (let i = 0; i < 20; i++) orbs.push(new Orb()); }
+    function animateOrbs() {
+      oCtx.clearRect(0, 0, orbCanvas.width, orbCanvas.height);
+      orbs.forEach(o => { o.update(); o.draw(); });
+      requestAnimationFrame(animateOrbs);
+    }
+
+    // ====== MUSIC ======
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false, musicStarted = false;
+    bgMusic.volume = 0;
+
+    function fadeInMusic() {
+      let v = 0;
+      const fade = setInterval(() => {
+        v += 0.006;
+        if (v >= 0.3) { v = 0.3; clearInterval(fade); }
+        bgMusic.volume = v;
+      }, 40);
+    }
+
+    function toggleMusic() {
+      if (isPlaying) { bgMusic.pause(); musicBtn.classList.remove('playing'); }
+      else {
+        if (!musicStarted) { bgMusic.volume = 0; bgMusic.play().then(() => { fadeInMusic(); musicStarted = true; }).catch(() => {}); }
+        else bgMusic.play();
+        musicBtn.classList.add('playing');
+      }
+      isPlaying = !isPlaying;
+    }
+
+    function startMusic() {
+      if (!musicStarted) {
+        bgMusic.volume = 0;
+        bgMusic.play().then(() => { fadeInMusic(); musicStarted = true; isPlaying = true; musicBtn.classList.add('playing'); }).catch(() => {});
+      }
+    }
+
+    // ====== INTRO ======
+    let introClicked = false;
+
+    function createBloom(x, y) {
+      for (let i = 0; i < 6; i++) {
+        const ring = document.createElement('div');
+        ring.className = 'bloom-ring';
+        ring.style.left = x + 'px';
+        ring.style.top = y + 'px';
+        ring.style.animation = `bloomExp 1.5s ease-out ${i * 0.12}s forwards`;
+        document.getElementById('intro').appendChild(ring);
+      }
+      if (!document.getElementById('bloomStyle')) {
+        const style = document.createElement('style');
+        style.id = 'bloomStyle';
+        style.textContent = `@keyframes bloomExp { 0% { width: 0; height: 0; opacity: 1; transform: translate(-50%, -50%); } 100% { width: 350px; height: 350px; opacity: 0; transform: translate(-50%, -50%); } }`;
+        document.head.appendChild(style);
+      }
+    }
+
+    document.getElementById('intro').addEventListener('click', function(e) {
+      if (introClicked || e.target.classList.contains('skip-btn')) return;
+      introClicked = true;
+      startMusic();
+
+      createBloom(e.clientX, e.clientY);
+      document.getElementById('introCenter').style.transition = 'opacity 0.8s ease';
+      document.getElementById('introCenter').style.opacity = '0';
+
+      setTimeout(() => {
+        document.getElementById('introSlogan').style.transition = 'opacity 1.5s ease';
+        document.getElementById('introSlogan').style.opacity = '1';
+      }, 600);
+
+      setTimeout(() => { showMemoriesSequentially(); }, 1200);
+
+      setTimeout(() => {
+        document.getElementById('introSlogan').style.transition = 'opacity 0.8s ease';
+        document.getElementById('introSlogan').style.opacity = '0';
+        const ce = document.getElementById('circleExpand');
+        ce.style.opacity = '1';
+        ce.style.transition = 'width 1.8s cubic-bezier(0.4,0,0.2,1), height 1.8s cubic-bezier(0.4,0,0.2,1)';
+        setTimeout(() => {
+          const max = Math.max(window.innerWidth, window.innerHeight) * 3;
+          ce.style.width = max + 'px';
+          ce.style.height = max + 'px';
+        }, 50);
+      }, 5000);
+
+      setTimeout(() => {
+        document.getElementById('intro').style.transition = 'opacity 0.5s ease';
+        document.getElementById('intro').style.opacity = '0';
+        document.getElementById('main-site').classList.add('visible');
+        document.getElementById('main-site').style.opacity = '1';
+      }, 6500);
+
+      setTimeout(() => { document.getElementById('intro').style.display = 'none'; }, 7000);
+    });
+
+    function skipIntro() {
+      document.getElementById('intro').style.transition = 'opacity 0.4s ease';
+      document.getElementById('intro').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('intro').style.display = 'none';
+        document.getElementById('main-site').classList.add('visible');
+        document.getElementById('main-site').style.opacity = '1';
+      }, 400);
+      startMusic();
+    }
+
+    // ====== INIT ======
+    window.addEventListener('resize', () => { resizeRipple(); resizeOrb(); });
+    resizeRipple();
+    resizeOrb();
+    createStars();
+    createMemoryFragments();
+    animateMemories();
+    initOrbs();
+    animateOrbs();
+    animateRipples();
+    autoRipple();
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.whisper-card, .work-item, .philosophy-item, .journey-item, .reflection-block, .story-text').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(15px)';
+      el.style.transition = 'all 0.6s ease';
+      obs.observe(el);
+    });
+  </script>
+</body>
+</html>
